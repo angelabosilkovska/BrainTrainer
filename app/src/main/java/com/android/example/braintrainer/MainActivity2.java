@@ -25,6 +25,7 @@ public class MainActivity2 extends AppCompatActivity {
     Button btn3;
     TextView sumTxtView;
     TextView timerTxtView;
+    Button playAgainBtn;
 
     public void chooseAnswer (View view) {
         if (Integer.toString(locationOfCorrectAnswer).equals(view.getTag().toString())) {
@@ -39,6 +40,31 @@ public class MainActivity2 extends AppCompatActivity {
         numberOfQuestions++;
         scoreTxtView.setText(Integer.toString(score)+"/"+Integer.toString(numberOfQuestions));
         newQuestion();
+    }
+
+    public void playAgain(View v) {
+        score = 0;
+        numberOfQuestions = 0;
+        timerTxtView.setText("30s");
+        scoreTxtView.setText(Integer.toString(score)+"/"+Integer.toString(numberOfQuestions));
+        resultTxtView.setVisibility(View.INVISIBLE);
+        playAgainBtn.setVisibility(View.INVISIBLE);
+
+        newQuestion();
+
+        new CountDownTimer(30100, 1000) {
+
+            @Override
+            public void onTick(long l) {
+                timerTxtView.setText(String.valueOf( l / 1000) + "s");
+            }
+
+            @Override
+            public void onFinish() {
+                resultTxtView.setText("Done!");
+                playAgainBtn.setVisibility(View.VISIBLE);
+            }
+        }.start();
     }
 
     public void newQuestion() {
@@ -82,20 +108,10 @@ public class MainActivity2 extends AppCompatActivity {
         resultTxtView = (TextView) findViewById(R.id.resultTxtView);
         scoreTxtView = (TextView) findViewById(R.id.ScoreTxtView);
         timerTxtView = (TextView) findViewById(R.id.timerTxtView);
+        playAgainBtn = (Button) findViewById(R.id.playAgainBtn);
 
-        newQuestion();
+        playAgain(findViewById(R.id.timerTxtView));
 
-        new CountDownTimer(30100, 1000) {
 
-            @Override
-            public void onTick(long l) {
-
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        }.start();
     }
 }
